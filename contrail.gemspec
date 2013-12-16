@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Contrail::VERSION
   spec.authors       = ["Eric Shamow"]
   spec.email         = ["eric.shamow@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Simple multi-vendor cloud management}
+  spec.summary       = %q{Simple tool for performing basic operations across multiple cloud vendors}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec", "~> 2.14"
 end
