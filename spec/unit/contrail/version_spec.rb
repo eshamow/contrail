@@ -10,10 +10,7 @@ describe Contrail do
     it "cannot change the version" do
       expect do
         described_class.version = "notaversion"
-      end.to raise_error, NoMethodError
+      end.to raise_error(NoMethodError, /undefined method `version='/)
     end
   end
-
 end
-
-
