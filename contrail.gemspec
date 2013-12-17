@@ -23,4 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 2.14"
 
   spec.add_dependency "cri", "~> 2.4"
+  spec.add_dependency "inifile", "~>2.0"
 end
