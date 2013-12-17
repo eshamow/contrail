@@ -12,7 +12,7 @@ module Contrail::CLI
         summary 'print the contrail version number'
 
         run do |opts, args, cmd|
-          puts contrail::VERSION
+          puts Contrail::VERSION
           exit 0
         end
       end
