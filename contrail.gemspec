@@ -24,5 +24,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "cri", "~> 2.4"
   spec.add_dependency "inifile", "~> 2.0"
-  spec.add_dependency "aws-sdk", "~> 1.28"
+  spec.add_dependency "fog", "~> 1.18"
 end
