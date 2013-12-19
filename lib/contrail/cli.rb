@@ -26,3 +26,4 @@ module Contrail::CLI
 end
 
 require 'contrail/cli/version'
+require 'contrail/cli/ec2'
