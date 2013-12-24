@@ -32,16 +32,14 @@ module Contrail
       :key_name => nil,
       :security_group_ids => nil,
     })
-      require 'pp'
-      puts options
       @connection.servers.select do |server|
-        next unless (options[:id] == nil) || (server.id == options[:id])
-        next unless (options[:private_ip_address] == nil) || (server.id == options[:private_ip_address])
-        next unless (options[:public_ip_address] == nil) || (server.id == options[:public_ip_address])
-        next unless (options[:dns_name] == nil) || (server.id == options[:dns_name])
-        next unless (options[:image_id] == nil) || (server.id == options[:image_id])
-        next unless (options[:key_name] == nil) || (server.id == options[:key_name])
-        next unless (options[:security_groups] == nil) || (server.id == options[:security_groups])
+        next unless ((options[:id] == nil || server.id == options[:id]) &&
+                     (options[:private_ip_address] == nil || server.private_ip_address == options[:private_ip_address]) &&
+                     (options[:public_ip_address] == nil || server.public_ip_address == options[:public_ip_address]) &&
+                     (options[:dns_name] == nil || server.dns_name == options[:dns_name]) &&
+                     (options[:image_id] == nil || server.image_id == options[:image_id]) &&
+                     (options[:key_name] == nil || server.key_name == options[:key_name]) &&
+                     (options[:security_groups] == nil || server.security_groups == options[:security_groups]))
         server
       end
     end
