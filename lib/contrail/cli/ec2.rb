@@ -1,5 +1,5 @@
 require 'contrail/cli'
-require 'contrail/version'
+require 'contrail/config'
 
 require 'cri'
 
@@ -8,8 +8,13 @@ module Contrail::CLI
     def self.command
       @cmd ||= Cri::Command.define do
         name 'ec2'
-        usage 'contrail ec2 <subcommand> [options]'
+        usage 'ec2 <subcommand> [options]'
         summary 'Run commands against EC2 computing environment'
+
+        option :c,
+          :configfile,
+          'Use specified config file (default is ~/.awsconfig)',
+          :argument => :required
 
         run do |opts, args, cmd|
           puts cmd.help
@@ -21,3 +26,5 @@ module Contrail::CLI
 
   self.command.add_command(EC2.command)
 end
+
+require 'contrail/cli/ec2/listinstances'

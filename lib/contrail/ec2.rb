@@ -32,6 +32,8 @@ module Contrail
       :key_name => nil,
       :security_group_ids => nil,
     })
+      require 'pp'
+      puts options
       @connection.servers.select do |server|
         next unless (options[:id] == nil) || (server.id == options[:id])
         next unless (options[:private_ip_address] == nil) || (server.id == options[:private_ip_address])
