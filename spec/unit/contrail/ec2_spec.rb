@@ -1,8 +1,24 @@
 require 'spec_helper'
 require 'contrail/ec2'
 
-#  filter specs are all commented out until Fog mocking makes more sense
-
 describe Contrail::EC2 do
-  it 'creates a new Contrail::EC2 object when initialized'
+  subject(:client) {
+    Fog.mock!
+    Contrail::EC2.new(Contrail::Config.new('util/awsconfig').data)
+  }
+  it 'creates a new Contrail::EC2 object when initialized' do
+    expect(client).to be_a_kind_of Contrail::EC2
+  end
+  it 'initiates a new Fog EC2 connection' do
+    expect(client.connection).to be_a_kind_of Fog::Compute::AWS::Mock
+  end
+  it 'can list all available keys' do
+    expect(client.get_keys).to be_a_kind_of Fog::Compute::AWS::KeyPairs
+  end
+  it 'can list all available images' do
+    expect(client.get_images).to be_a_kind_of Fog::Compute::AWS::Images
+  end
+  it 'can list all servers' do
+    expect(client.get_servers).to be_a_kind_of Fog::Compute::AWS::Servers
+  end
 end

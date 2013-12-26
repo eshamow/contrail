@@ -17,26 +17,14 @@ describe Contrail::EC2 do
   after(:each) do
     client.connection.key_pairs.destroy 'contrail_testkey'
   end
-  it 'initiates a new Fog EC2 connection' do
-    expect(client.connection).to be_a_kind_of Fog::Compute::AWS::Mock
-  end
-  it 'can list all available keys' do
-    expect(client.get_keys).to be_a_kind_of Fog::Compute::AWS::KeyPairs
-  end
 #  it 'can filter keys by name' do
 #    expect(client.get_keys(:name => 'contrail_testkey').count).to eq 1
 #    expect(client.get_keys(:name => 'contrail_fakekey').count).to eq 0
 #  end
-  it 'can list all available images' do
-    expect(client.get_images).to be_a_kind_of Fog::Compute::AWS::Images
-  end
 #  it 'can filter images by id' do
 #    expect(client.get_images(:id => 'ari-fefe73ce').count).to eq 1
 #    expect(client.get_images(:id => 'foo').count).to eq 0
 #  end
-  it 'can list all servers' do
-    expect(client.get_servers).to be_a_kind_of Fog::Compute::AWS::Servers
-  end
 #  it 'can filter servers by id' do
 #    expect(client.get_servers(:id => 'i-8c67ecbb').count).to eq 1
 #    expect(client.get_servers(:id => 'fakenum').count).to eq 0
