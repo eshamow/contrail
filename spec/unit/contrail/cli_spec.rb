@@ -4,8 +4,15 @@ require 'contrail/cli'
 describe Contrail::CLI do
   describe "with no arguments" do
     it "returns top-level application" do
-      cmd = described_class.command
-      expect(cmd.name).to eq 'contrail'
+      expect(described_class.command.name).to eq 'contrail'
     end
+    it "exits with code 0 when called with no arguments" do
+      expect { described_class.command.block.call(Hash.new, Array.new, described_class.command)}.to terminate.with_code 0
+    end
+    it "returns help document for contrail"
+  end
+  describe "with -h flag" do
+    it "returns help dialog"
+    it "returns help dialog even if other flags are passed"
   end
 end
