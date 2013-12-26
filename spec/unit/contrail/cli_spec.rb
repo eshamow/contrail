@@ -3,6 +3,12 @@ require 'contrail/cli'
 
 describe Contrail::CLI do
   describe "with no arguments" do
+    before(:all) do
+      silence_output
+    end
+    after(:all) do
+      enable_output
+    end
     it "returns top-level application" do
       expect(described_class.command.name).to eq 'contrail'
     end
