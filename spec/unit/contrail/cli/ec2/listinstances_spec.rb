@@ -33,17 +33,25 @@ describe Contrail::CLI::EC2::Listinstances do
       end
     end
   end
-  describe "when -c is passed" do
-    it "loads the appropriate config file"
+  it "returns an error code when invalid options are passed" do
+    captured_output = capture_stdout do
+      expect { described_class.command.block.call({:foobar => true}, Array.new, described_class.command) }.to terminate.without_code 0
+    end
   end
-  describe "when -c is not passed" do
-    it "loads the default config file"
-  end
-  it "returns an error code when invalid options are passed"
   describe "when -H is passed" do
-    it "returns tabulated data"
+    it "returns tabulated data" do
+      captured_output = capture_stdout do
+        expect { described_class.command.block.call({:human => true}, Array.new, described_class.command)}.to terminate.with_code 0
+      end
+      expect(captured_output).to include 'ID             private_ip_address  public_ip_address   dns_name'
+    end
   end
   describe "when -H is not passed" do
-    it "returns a JSON hash of data"
+    it "returns a JSON hash of data" do
+      captured_output = capture_stdout do
+        expect { described_class.command.block.call(Hash.new, Array.new, described_class.command)}.to terminate.with_code 0
+      end
+      expect(JSON.parse(captured_output).all?).to eq true
+    end
   end
 end
