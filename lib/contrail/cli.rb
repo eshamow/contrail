@@ -15,7 +15,6 @@ module Contrail::CLI
       EOD
 
       flag :h, :help, 'show help for this command'
-      flag :t, :trace, 'display stack traces on application crash'
       flag :H, :human, 'enable human readable output'
 
       run do |opts, args, cmd|

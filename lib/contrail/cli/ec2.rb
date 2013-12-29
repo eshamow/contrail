@@ -28,3 +28,4 @@ module Contrail::CLI
 end
 
 require 'contrail/cli/ec2/listinstances'
+require 'contrail/cli/ec2/deleteinstances'
