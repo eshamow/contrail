@@ -30,8 +30,25 @@ describe Contrail::EC2 do
       expect { client.delete_servers ['foo'] }.to raise_error Fog::Compute::AWS::NotFound
     end
     describe 'when returning an array' do
-      it 'has one key for every server passed'
-      it 'has one result for every key'
+      describe 'when all servers are valid' do
+        instances = Hash.new
+        before(:each) do
+          3.times do |i|
+            instances[i] = client.connection.servers.create
+          end
+        end
+        after(:each) do
+          instances.each do |instance|
+            client.connection.servers.destroy(instance[1].id)
+          end
+        end
+        it 'has one key for every server passed'
+        it 'has one result for every key'
+      end
+      describe 'when only some servers are valid' do
+        it 'has one key for every valid server passed'
+        it 'has one result for every key'
+      end
     end
   end
 end
