@@ -22,7 +22,13 @@ describe Contrail::EC2 do
     expect(client.get_servers).to be_a_kind_of Fog::Compute::AWS::Servers
   end
   describe 'when deleting servers' do
-    it 'returns an array'
+    it 'returns a hash if the server is present' do
+      server = client.connection.servers.create
+      expect(client.delete_servers([server.id])).to be_a_kind_of Hash
+    end
+    it 'throws a fog error if the server is not present' do
+      expect { client.delete_servers ['foo'] }.to raise_error Fog::Compute::AWS::NotFound
+    end
     describe 'when returning an array' do
       it 'has one key for every server passed'
       it 'has one result for every key'
