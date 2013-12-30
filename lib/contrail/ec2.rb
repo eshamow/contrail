@@ -44,5 +44,12 @@ module Contrail
         server
       end
     end
+    def delete_servers(server_array)
+      result_array = Hash.new
+      server_array.each do |server|
+        result_array[:server] = @connection.servers.destroy(server)
+      end
+      result_array
+    end
   end
 end

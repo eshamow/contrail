@@ -21,4 +21,11 @@ describe Contrail::EC2 do
   it 'can list all servers' do
     expect(client.get_servers).to be_a_kind_of Fog::Compute::AWS::Servers
   end
+  describe 'when deleting servers' do
+    it 'returns an array'
+    describe 'when returning an array' do
+      it 'has one key for every server passed'
+      it 'has one result for every key'
+    end
+  end
 end
