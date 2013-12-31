@@ -3,6 +3,7 @@ require 'contrail/cli/ec2'
 require 'contrail/ec2'
 
 require 'cri'
+require 'json'
 
 module Contrail::CLI::EC2
   module Deleteinstances
@@ -28,7 +29,7 @@ module Contrail::CLI::EC2
               printf "%-15s%-60s\n", server[0], server[1] == true ? 'destroyed' : server[1]
             end
           else
-            puts result
+            puts result.to_json
           end
           exit 0
         end

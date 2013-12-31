@@ -21,6 +21,8 @@ describe Contrail::EC2 do
   it 'can list all servers' do
     expect(client.get_servers).to be_a_kind_of Fog::Compute::AWS::Servers
   end
+
+  #deleteinstances
   describe 'when deleting servers' do
     it 'returns a hash' do
       server = client.connection.servers.create
@@ -87,4 +89,7 @@ describe Contrail::EC2 do
       end
     end
   end
+
+  #createinstances
+  #
 end

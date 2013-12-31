@@ -39,15 +39,51 @@ describe Contrail::CLI::EC2::Deleteinstances do
     end
   end
   describe "when -H is passed" do
-    it "returns tabulated data"
+    it "returns tabulated data" do
+      captured_output = capture_stdout do
+        expect { described_class.command.block.call({:human => true}, Array.new, described_class.command) }.to terminate.with_code 0
+      end
+      expect(captured_output).to include 'ID             Status'
+    end
+    describe "when a single ID is passed" do
+      it "returns a single response" do
+        captured_output = capture_stdout do
+          expect { described_class.command.block.call({:human => true}, ['foo'], described_class.command) }.to terminate.with_code 0
+        end
+        expect(captured_output.lines.count).to eq 2
+      end
+    end
+    describe "when multiple IDs are passed" do
+      it "returns an identical number of responses" do
+        captured_output = capture_stdout do
+          expect { described_class.command.block.call({:human => true }, ['foo','bar','baz'], described_class.command) }.to terminate.with_code 0
+        end
+        expect(captured_output.lines.count).to eq 4
+      end
+    end
   end
   describe "when -H is not passed" do
-    it "returns a JSON hash of data"
-  end
-  describe "when a single ID is passed" do
-    it "returns a single response"
-  end
-  describe "when multiple IDs are passed" do
-    it "returns an identical number of responses"
+    it "returns a JSON hash of data" do
+      captured_output = capture_stdout do
+        expect { described_class.command.block.call(Hash.new, Array.new, described_class.command)}.to terminate.with_code 0
+      end
+      expect(JSON.parse(captured_output).all?).to eq true
+    end
+    describe "when a single ID is passed" do
+      it "returns a single response" do
+        captured_output = capture_stdout do
+          expect { described_class.command.block.call(Hash.new, ['foo'], described_class.command) }.to terminate.with_code 0
+        end
+        expect(captured_output.lines.count).to eq 1
+      end
+    end
+    describe "when multiple IDs are passed" do
+      it "returns an identical number of responses" do
+        captured_output = capture_stdout do
+          expect { described_class.command.block.call(Hash.new, ['foo','bar','baz'], described_class.command) }.to terminate.with_code 0
+        end
+        expect(JSON.parse(captured_output).count).to eq 3
+      end
+    end
   end
 end
