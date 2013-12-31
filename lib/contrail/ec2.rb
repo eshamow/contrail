@@ -33,6 +33,7 @@ module Contrail
       :image_id => nil,
       :key_name => nil,
       :security_group_ids => nil,
+      :state => nil,
     }
 
     def get_servers(options = DEFAULT_SERVER_OPTIONS)
@@ -43,7 +44,9 @@ module Contrail
                      (options[:dns_name] == nil || server.dns_name == options[:dns_name]) &&
                      (options[:image_id] == nil || server.image_id == options[:image_id]) &&
                      (options[:key_name] == nil || server.key_name == options[:key_name]) &&
-                     (options[:security_groups] == nil || server.security_groups == options[:security_groups]))
+                     (options[:security_groups] == nil || server.security_groups == options[:security_groups]) &&
+                     (options[:state] == nil || server.state == options[:state])
+        )
       end
     end
     def delete_servers(server_array)

@@ -43,6 +43,11 @@ module Contrail::CLI::EC2
           :argument => :required do |value|
           client_options[:security_groups] = value
         end
+        option :t, :state,
+          'Search for instance by state',
+          :argument => :required do |value|
+          client_options[:state] = value
+        end
 
         run do |opts, args, cmd|
           if opts[:help]
