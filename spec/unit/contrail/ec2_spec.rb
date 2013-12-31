@@ -22,32 +22,66 @@ describe Contrail::EC2 do
     expect(client.get_servers).to be_a_kind_of Fog::Compute::AWS::Servers
   end
   describe 'when deleting servers' do
-    it 'returns a hash if the server is present' do
+    it 'returns a hash' do
       server = client.connection.servers.create
       expect(client.delete_servers([server.id])).to be_a_kind_of Hash
     end
-    it 'throws a fog error if the server is not present' do
-      expect { client.delete_servers ['foo'] }.to raise_error Fog::Compute::AWS::NotFound
+    it 'returns a un-truthy value if server is not present' do
+      expect(client.delete_servers(['foo'])['foo'].message).to match /The instance ID .*foo.* does not exist/
     end
     describe 'when returning an array' do
       describe 'when all servers are valid' do
-        instances = Hash.new
+        instances = Array.new
         before(:each) do
           3.times do |i|
-            instances[i] = client.connection.servers.create
+            instances << client.connection.servers.create.id
           end
         end
         after(:each) do
           instances.each do |instance|
-            client.connection.servers.destroy(instance[1].id)
+            client.connection.servers.destroy(instance)
           end
         end
-        it 'has one key for every server passed'
-        it 'has one result for every key'
+        it 'has one key for every server passed' do
+          expect(client.delete_servers(instances).length).to eq 3
+        end
+        it 'has one true result for every key' do
+          expect(client.delete_servers(instances).keys).to match_array instances
+        end
       end
       describe 'when only some servers are valid' do
-        it 'has one key for every valid server passed'
-        it 'has one result for every key'
+        instances = Array.new
+        before(:each) do
+          2.times do |i|
+            instances << client.connection.servers.create.id
+          end
+          instances << 'foo'
+          instances << client.connection.servers.create.id
+        end
+        after(:each) do
+          instances.each do |instance|
+            begin
+              client.connection.servers.destroy(instance)
+            rescue Fog::Compute::AWS::NotFound => e
+              next
+            end
+          end
+          instances = Array.new
+        end
+        it 'has one key for every server passed' do
+          expect(client.delete_servers(instances).length).to eq 4
+        end
+        it 'has one boolean result for every valid key' do
+          valid_results = client.delete_servers(instances).select do |key, value|
+            value == true
+          end
+          expect(valid_results.length).to eq 3
+        end
+        it 'has one error message for every invalid key' do
+          valid_results = client.delete_servers(instances).select do |key, value|
+            value.class == Fog::Compute::AWS::NotFound
+          end
+        end
       end
     end
   end

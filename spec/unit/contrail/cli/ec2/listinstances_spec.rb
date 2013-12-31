@@ -35,7 +35,7 @@ describe Contrail::CLI::EC2::Listinstances do
   end
   it "returns an error code when invalid options are passed" do
     captured_output = capture_stdout do
-      expect { described_class.command.block.call({:foobar => true}, Array.new, described_class.command) }.to terminate.without_code 0
+      expect { described_class.command.block.call({:foobar => true}, Array.new, described_class.command) }.to terminate.without_code 1
     end
   end
   describe "when -H is passed" do

@@ -54,10 +54,11 @@ module Contrail::CLI::EC2
           client = Contrail::EC2.new(
             Contrail::Config.new(configfile).data
           ).get_servers(client_options).to_json
+
+          fields = ['ID', 'private_ip_address', 'public_ip_address', 'dns_name', 'image_id', 'key_name', 'security_groups']
+
           if opts[:human]
-            printf "%-15s%-20s%-20s%-60s%-15s%-60s\n", 'ID',
-              'private_ip_address', 'public_ip_address', 'dns_name', 'image_id',
-              'key_name', 'security_groups'
+            printf "%-15s%-20s%-20s%-60s%-15s%-60s\n", *fields
             JSON.parse(client).each do |c|
               printf "%-15s%-20s%-20s%-60s%-15s%-60s\n", c['id'],
                 c['private_ip_address'], c['public_ip_address'], c['dns_name'],
