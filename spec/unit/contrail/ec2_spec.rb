@@ -27,6 +27,7 @@ describe Contrail::EC2 do
       expect(client.delete_servers([server.id])).to be_a_kind_of Hash
     end
     it 'returns a un-truthy value if server is not present' do
+      #note: this will return a Fog::Compute::AWS::Error reading "Malformed => Invalid id" if mocking is off
       expect(client.delete_servers(['foo'])['foo'].message).to match /The instance ID .*foo.* does not exist/
     end
     describe 'when returning an array' do
@@ -41,6 +42,7 @@ describe Contrail::EC2 do
           instances.each do |instance|
             client.connection.servers.destroy(instance)
           end
+          instances = Array.new
         end
         it 'has one key for every server passed' do
           expect(client.delete_servers(instances).length).to eq 3

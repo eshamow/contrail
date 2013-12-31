@@ -43,7 +43,7 @@ describe Contrail::CLI::EC2::Listinstances do
       captured_output = capture_stdout do
         expect { described_class.command.block.call({:human => true}, Array.new, described_class.command)}.to terminate.with_code 0
       end
-      expect(captured_output).to include 'ID             private_ip_address  public_ip_address   dns_name'
+      expect(captured_output).to include 'ID             state     private_ip_address  public_ip_address   dns_name                                                    image_id       key_name'
     end
   end
   describe "when -H is not passed" do

@@ -55,14 +55,14 @@ module Contrail::CLI::EC2
             Contrail::Config.new(configfile).data
           ).get_servers(client_options).to_json
 
-          fields = ['ID', 'private_ip_address', 'public_ip_address', 'dns_name', 'image_id', 'key_name', 'security_groups']
+          fields = ['ID', 'state', 'private_ip_address', 'public_ip_address', 'dns_name', 'image_id', 'key_name', 'security_groups']
 
           if opts[:human]
-            printf "%-15s%-20s%-20s%-60s%-15s%-60s\n", *fields
+            printf "%-15s%-10s%-20s%-20s%-60s%-15s%-60s\n", *fields
             JSON.parse(client).each do |c|
-              printf "%-15s%-20s%-20s%-60s%-15s%-60s\n", c['id'],
-                c['private_ip_address'], c['public_ip_address'], c['dns_name'],
-                c['image_id'], c['key_name'], c['security_groups']
+              printf "%-15s%-10s%-20s%-20s%-60s%-15s%-60s\n", c['id'],
+                c['state'], c['private_ip_address'], c['public_ip_address'],
+                c['dns_name'], c['image_id'], c['key_name'], c['security_groups']
             end
           else
             puts client

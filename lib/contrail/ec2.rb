@@ -51,7 +51,7 @@ module Contrail
       server_array.each do |server|
         begin
           result_array[server] = @connection.servers.destroy(server)
-        rescue Fog::Compute::AWS::NotFound => e
+        rescue Fog::Compute::AWS::NotFound, Fog::Compute::AWS::Error => e
           result_array[server] = e
         end
       end
