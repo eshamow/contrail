@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "cri", "~> 2.4"
   spec.add_dependency "inifile", "~> 2.0"
   spec.add_dependency "fog", "~> 1.18"
+  spec.add_dependency "json", "~> 1.8"
 end
