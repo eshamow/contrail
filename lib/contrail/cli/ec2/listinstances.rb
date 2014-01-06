@@ -30,7 +30,7 @@ module Contrail::CLI::EC2
           :argument => :required do |value|
           client_options[:dns_name] = value
         end
-        option :g, :imageid, 'Search for instance by image ID',
+        option :a, :imageid, 'Search for instance by image ID',
           :argument => :required do |value|
           client_options[:image_id] = value
         end
@@ -38,15 +38,20 @@ module Contrail::CLI::EC2
           :argument => :required do |value|
           client_options[:key_name] = value
         end
-        option :s, :securitygroups,
+        option :g, :securitygroups,
           'Search for instance by security group membership',
           :argument => :required do |value|
           client_options[:security_groups] = value
         end
-        option :t, :state,
+        option :s, :state,
           'Search for instance by state',
           :argument => :required do |value|
           client_options[:state] = value
+        end
+        option :t, :tags,
+          'Search for instance by tags',
+          :argument => :required do |value|
+          client_options[:value] = value
         end
 
         run do |opts, args, cmd|
