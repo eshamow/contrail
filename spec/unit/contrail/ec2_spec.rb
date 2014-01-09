@@ -22,6 +22,21 @@ describe Contrail::EC2 do
     expect(client.get_servers).to be_a_kind_of Fog::Compute::AWS::Servers
   end
 
+  #tag_to_hash
+  describe 'when consuming a string containing a comma-separated list of key value pairs' do
+    tagarray = String.new
+    before(:each) do
+      tagarray = 'foo=bar,baz=tmp,a=b'
+    end
+    it 'returns a hash containing all of the keys and values' do
+      taghash = client.tag_to_hash(tagarray)
+      taghash.keys.should have(3).items
+      taghash.keys.should =~ ['baz','foo','a']
+      taghash.values.should have(3).items
+      taghash.values.should =~ ['bar','tmp','b']
+    end
+  end
+
   #deleteinstances
   describe 'when deleting servers' do
     it 'returns a hash' do

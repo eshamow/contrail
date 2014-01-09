@@ -51,7 +51,7 @@ module Contrail::CLI::EC2
         option :t, :tags,
           'Search for instance by tags',
           :argument => :required do |value|
-          client_options[:value] = value
+          client_options[:tags] = value
         end
 
         run do |opts, args, cmd|

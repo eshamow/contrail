@@ -6,6 +6,15 @@ module Contrail
   class EC2
     attr_reader :connection
 
+    def tag_to_hash(tagarray)
+      taghash = Hash.new
+      tagarray.split(',').each do |pair|
+        key, value = pair.split('=')
+        taghash[key] = value
+      end
+      taghash
+    end
+
     def initialize(configdata)
       @connection = Fog::Compute.new(
         :provider => 'aws',
@@ -34,6 +43,7 @@ module Contrail
       :key_name => nil,
       :security_group_ids => nil,
       :state => nil,
+      :tags => nil,
     }
 
     def get_servers(options = DEFAULT_SERVER_OPTIONS)
@@ -45,7 +55,8 @@ module Contrail
                      (options[:image_id] == nil || server.image_id == options[:image_id]) &&
                      (options[:key_name] == nil || server.key_name == options[:key_name]) &&
                      (options[:security_groups] == nil || server.security_groups == options[:security_groups]) &&
-                     (options[:state] == nil || server.state == options[:state])
+                     (options[:state] == nil || server.state == options[:state]) &&
+                     (options[:tags] == nil || server.tags == tag_to_hash(options[:tags]))
         )
       end
     end
