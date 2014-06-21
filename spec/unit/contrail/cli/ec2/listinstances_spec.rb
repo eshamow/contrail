@@ -45,7 +45,7 @@ describe Contrail::CLI::EC2::Listinstances do
       end
       expect(captured_output).to include 'ID             state     private_ip_address  public_ip_address   dns_name                                                    image_id       key_name'
     end
-    describe "when -t is passed" do
+    describe "when -T is passed" do
       it "returns tags in tabulated format"
     end
   end
@@ -56,7 +56,7 @@ describe Contrail::CLI::EC2::Listinstances do
       end
       expect(JSON.parse(captured_output).all?).to eq true
     end
-    describe "when -t is passed" do
+    describe "when -T is passed" do
       it "returns tags in JSON format"
     end
   end
