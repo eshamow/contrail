@@ -53,6 +53,8 @@ module Contrail::CLI::EC2
           :argument => :required do |value|
           client_options[:tags] = value
         end
+        option :T, :displaytags,
+          'Display instance tags'
 
         run do |opts, args, cmd|
           if opts[:help]
@@ -66,13 +68,44 @@ module Contrail::CLI::EC2
           ).get_servers(client_options).to_json
 
           fields = ['ID', 'state', 'private_ip_address', 'public_ip_address', 'dns_name', 'image_id', 'key_name', 'security_groups']
+          if opts[:displaytags]
+            fields << 'tags'
+          end
 
           if opts[:human]
-            printf "%-15s%-10s%-20s%-20s%-60s%-15s%-60s\n", *fields
+            header_array = []
+            header_array << "%-15.15s"  # ID
+            header_array << "%-10.10s"  # state
+            header_array << "%-20.20s"  # private_ip_address
+            header_array << "%-20.20s"  # public_ip_address
+            header_array << "%-60.60s"  # dns_name
+            header_array << "%-15.15s"  # image_id
+            header_array << "%-10.10s"  # key_name
+            header_array << "%-30.30s"  # security_groups
+            header_array << "%-20.20s" if opts[:displaytags]
+            header_array << "\n"
+            header = header_array.join
+            printf header, *fields
             JSON.parse(client).each do |c|
-              printf "%-15s%-10s%-20s%-20s%-60s%-15s%-60s\n", c['id'],
-                c['state'], c['private_ip_address'], c['public_ip_address'],
-                c['dns_name'], c['image_id'], c['key_name'], c['security_groups']
+              attribs = [c['id'],
+                         c['state'],
+                         c['private_ip_address'],
+                         c['public_ip_address'],
+                         c['dns_name'],
+                         c['image_id'],
+                         c['key_name'],
+                         c['groups']
+                       ]
+              if opts[:displaytags]
+                attribs << (c['tags'].keys.count > 0 ? c['tags'] : '')
+              end
+              begin
+                printf header, *attribs
+              rescue Exception => e
+                require 'pry'
+                binding.pry
+              end
+
             end
           else
             puts client

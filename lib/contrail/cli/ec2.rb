@@ -16,10 +16,6 @@ module Contrail::CLI
           'Use specified config file (default is ~/.awsconfig)',
           :argument => :required
 
-        option :T,
-          :displaytags,
-          'Display instance tags'
-
         run do |opts, args, cmd|
           puts cmd.help
           exit 0
