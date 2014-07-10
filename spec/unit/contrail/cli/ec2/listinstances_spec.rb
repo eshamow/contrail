@@ -56,8 +56,5 @@ describe Contrail::CLI::EC2::Listinstances do
       end
       expect(JSON.parse(captured_output).all?).to eq true
     end
-    describe "when -T is passed" do
-      it "returns tags in JSON format"
-    end
   end
 end
